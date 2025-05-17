@@ -24,24 +24,24 @@ async function bootstrap() {
   app.setGlobalPrefix(APP_CONFIG.VERSION_API);
 
   app.useGlobalInterceptors(
-    new LoggingInterceptor(),
-    new TransformInterceptor(),
+    new LoggingInterceptor(), // ghi log lại các request/response
+    new TransformInterceptor(), // định dạng lại dữ liệu trả về theo chuẩn nhất
   );
-
+  // chống injection và đảm bảo dữ liệu đúng định dạng trước khi vào controller.
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
+      whitelist: true, // chỉ cho phép các trường đã được định nghĩa trong DTO
+      forbidNonWhitelisted: true, // trả về lỗi nếu có trường không được định nghĩa trong DTO
+      transform: true, // tự động chuyển đổi kiểu dữ liệu DTO
       transformOptions: {
-        enableImplicitConversion: true,
+        enableImplicitConversion: true, // tự động đoán kiểu dữ liệu để convert
       },
     }),
   );
 
   app.enableCors({
-    credentials: true,
-    origin: true,
+    credentials: true, //Cho phép gửi cookie, token qua CORS request.
+    origin: true, //  Chấp nhận mọi domain gửi request
   });
 
   initSwagger(app);
