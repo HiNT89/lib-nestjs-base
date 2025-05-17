@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-
+import { Reflector } from '@nestjs/core'; // Chú ý import đúng từ @nestjs/core
 import APP_CONFIG from './config/app.config';
 import initSwagger from './swagger/swagger';
 import { LoggingInterceptor } from '@/interceptor/logger.interceptor';
@@ -23,9 +23,11 @@ async function bootstrap() {
 
   app.setGlobalPrefix(APP_CONFIG.VERSION_API);
 
+  const reflector = app.get(Reflector);
+
   app.useGlobalInterceptors(
     new LoggingInterceptor(), // ghi log lại các request/response
-    new TransformInterceptor(), // định dạng lại dữ liệu trả về theo chuẩn nhất
+    new TransformInterceptor(reflector), // định dạng lại dữ liệu trả về theo chuẩn nhất
   );
   // chống injection và đảm bảo dữ liệu đúng định dạng trước khi vào controller.
   app.useGlobalPipes(
