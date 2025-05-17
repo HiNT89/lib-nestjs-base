@@ -6,8 +6,8 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import { Reflector } from '@nestjs/core'; // Chú ý import đúng từ @nestjs/core
-import APP_CONFIG from './config/app.config';
-import initSwagger from './swagger/swagger';
+import APP_CONFIG from '@/config/app.config';
+import initSwagger from '@/swagger/swagger';
 import { LoggingInterceptor } from '@/interceptor/logger.interceptor';
 import { TransformInterceptor } from '@/interceptor/transform.interceptor';
 
